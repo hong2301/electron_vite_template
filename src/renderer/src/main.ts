@@ -21,20 +21,6 @@
   }
 })()
 
-// 挂载csp
-const meta = document.createElement('meta')
-meta.httpEquiv = 'Content-Security-Policy'
-meta.content = `
-  default-src 'self';
-  connect-src 'self' ${import.meta.env.VITE_SERVER_BASE_URL}:${import.meta.env.VITE_SERVER_PROD};
-  script-src 'self' 'wasm-unsafe-eval';
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data: blob:;
-  font-src 'self';
-  form-action 'none';
-`.replace(/\n/g, '')
-document.head.appendChild(meta)
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'

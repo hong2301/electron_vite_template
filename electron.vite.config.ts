@@ -27,7 +27,28 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      {
+        name: 'inject-csp',
+        transformIndexHtml(html) {
+          const cspContent = `
+            default-src 'self';
+            connect-src 'self' ${process.env.VITE_SERVER_BASE_URL}:${process.env.VITE_SERVER_PROD};
+            script-src 'self' 'wasm-unsafe-eval';
+            style-src 'self' 'unsafe-inline';
+            img-src 'self' data: blob:;
+            font-src 'self';
+            form-action 'none';
+          `.replace(/\n/g, '')
+
+          return html.replace(
+            '<head>',
+            `<head><meta http-equiv="Content-Security-Policy" content="${cspContent}">`
+          )
+        }
+      }
+    ],
     server: {
       host: process.env.VITE_APP_HOST,
       port: Number(process.env.VITE_APP_PORT),
