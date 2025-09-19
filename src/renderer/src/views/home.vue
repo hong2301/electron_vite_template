@@ -11,12 +11,21 @@ const cards = ref<projectType[]>([
     process: [
       {
         name: '流程1',
-        path: '/process/getid',
-        key: 'getid',
+        path: '/process/process1',
+        key: 'process1',
         input: {},
         result: {},
         timeout: 30,
         des: '进行流程1'
+      },
+      {
+        name: '流程1',
+        path: '/process/process2',
+        key: 'process2',
+        input: {},
+        result: {},
+        timeout: 30,
+        des: '进行流程2'
       }
     ]
   },
@@ -26,12 +35,21 @@ const cards = ref<projectType[]>([
     process: [
       {
         name: '流程1',
-        path: '/process/getid',
-        key: 'getid',
+        path: '/process/process1',
+        key: 'process1',
         input: {},
         result: {},
         timeout: 30,
         des: '进行流程1'
+      },
+      {
+        name: '流程1',
+        path: '/process/process2',
+        key: 'process2',
+        input: {},
+        result: {},
+        timeout: 30,
+        des: '进行流程2'
       }
     ]
   },
@@ -41,12 +59,21 @@ const cards = ref<projectType[]>([
     process: [
       {
         name: '流程1',
-        path: '/process/getid',
-        key: 'getid',
+        path: '/process/process1',
+        key: 'process1',
         input: {},
         result: {},
         timeout: 30,
         des: '进行流程1'
+      },
+      {
+        name: '流程1',
+        path: '/process/process2',
+        key: 'process2',
+        input: {},
+        result: {},
+        timeout: 30,
+        des: '进行流程2'
       }
     ]
   }
