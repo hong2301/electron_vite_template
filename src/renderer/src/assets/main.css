@@ -186,3 +186,7 @@ code {
   color: rgb(106, 106, 106);
   font-size: 1rem;
 }
+.w-label {
+  color: rgb(239, 239, 239);
+  font-size: 1.2rem;
+}

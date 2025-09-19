@@ -1,5 +1,75 @@
 <script setup lang="ts">
-import { Back, HomeFilled, WarnTriangleFilled } from '@element-plus/icons-vue'
+import {
+  Back,
+  HomeFilled,
+  WarnTriangleFilled,
+  PhoneFilled,
+  Calendar
+} from '@element-plus/icons-vue'
+import router from '@renderer/router'
+import { useCmdStore } from '@renderer/stores/cmd'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { getCurrentDate, getCurrentDayOfWeek, getCurrentTime } from '@renderer/utils/date'
+
+const route = useRoute()
+const isHome = ref(true)
+const isProcess = ref(false)
+const sf = ref('')
+
+const back = () => {
+  router.go(-1)
+}
+
+const goHome = () => {
+  router.replace('/')
+}
+
+// 判断是否在首页
+const isHomeFn = () => {
+  if (route.path === '/') {
+    isHome.value = true
+  } else {
+    useCmdStore().home = true
+    isHome.value = false
+  }
+}
+
+// 判断是否在在进行流程
+const isProcessFn = () => {
+  if (route.path.includes('process')) {
+    useCmdStore().back = true
+    isProcess.value = true
+  } else {
+    isProcess.value = false
+  }
+}
+
+// 运行循环获取当前时间
+const runGetCurrentTime = () => {
+  sf.value = getCurrentTime(2)
+  setInterval(() => {
+    sf.value = getCurrentTime(2)
+    console.log(sf.value)
+  }, 60000)
+}
+
+onMounted(() => {
+  runGetCurrentTime()
+})
+
+// 监控路由变化
+watch(
+  () => route.path,
+  (newPath, oldPath) => {
+    console.log('路由从', oldPath, '跳转到', newPath)
+    // 关闭所有cmd
+    useCmdStore().close()
+
+    isHomeFn()
+    isProcessFn()
+  }
+)
 </script>
 
 <template>
@@ -13,22 +83,58 @@ import { Back, HomeFilled, WarnTriangleFilled } from '@element-plus/icons-vue'
           </div>
           <div class="desBox">
             <el-icon class="w-label-des" style="font-size: 1.3rem; margin-right: 0.2rem"
-              ><WarnTriangleFilled
+              ><Calendar
             /></el-icon>
-            <div class="w-label-des">操作过程如有问题请联系引导员或到前台办理</div>
+            <div class="w-label-des" style="margin-inline: 0.5rem">{{ getCurrentDate() }}</div>
+            <div class="w-label-des" style="margin-right: 0.5rem">{{ getCurrentDayOfWeek() }}</div>
+            <div class="w-label-des">{{ sf }}</div>
           </div>
         </div>
         <div class="page">
           <router-view />
         </div>
       </div>
-      <div class="tail">
-        <el-button text size="large" :icon="HomeFilled" color="rgb(255,255,255)" class="tool-btn"
-          >首页</el-button
+      <div v-if="!isHome" class="tail">
+        <el-button
+          v-if="useCmdStore().home"
+          text
+          size="large"
+          :icon="HomeFilled"
+          color="rgb(255,255,255)"
+          class="tool-btn"
+          @click="goHome"
         >
-        <el-button text size="large" :icon="Back" color="rgb(255,255,255)" class="tool-btn"
-          >返回</el-button
+          首页
+        </el-button>
+        <el-button
+          v-if="useCmdStore().back"
+          text
+          size="large"
+          :icon="Back"
+          color="rgb(255,255,255)"
+          class="tool-btn"
+          @click="back"
         >
+          返回
+        </el-button>
+      </div>
+      <div
+        v-else
+        class="tail"
+        style="display: flex; justify-content: space-between; padding-inline: 2rem"
+      >
+        <div style="display: flex; justify-content: center; align-items: center">
+          <el-icon class="w-label" style="font-size: 1.3rem; margin-right: 0.2rem"
+            ><WarnTriangleFilled
+          /></el-icon>
+          <div class="w-label">操作过程如有问题请联系引导员或到前台办理</div>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: center">
+          <el-icon class="w-label" style="font-size: 1.3rem; margin-right: 0.2rem"
+            ><PhoneFilled
+          /></el-icon>
+          <div class="w-label">技术支持: 0755-89700590</div>
+        </div>
       </div>
     </div>
   </div>
