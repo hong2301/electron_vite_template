@@ -128,7 +128,20 @@ watch(
           </div>
         </div>
         <div class="page" :style="{ opacity: `${contentHide ? 0 : 1}` }">
-          <div v-if="isProcess" class="process"></div>
+          <div v-if="isProcess" class="process">
+            <el-steps
+              direction="vertical"
+              :active="useProjectStore().getStep()"
+              finish-status="success"
+            >
+              <el-step
+                v-for="(pItem, pIndex) in useProjectStore().nowProject.process"
+                :key="pIndex"
+                :title="pItem.name"
+                :description="pItem.des"
+              />
+            </el-steps>
+          </div>
           <div class="router-view">
             <router-view />
           </div>
@@ -220,9 +233,10 @@ watch(
   display: flex;
 }
 .process {
-  width: 20%;
-  height: 100%;
-  background-color: red;
+  width: 10%;
+  height: 80%;
+  display: flex;
+  border-right: 0.1rem solid rgba(0, 0, 0, 0.05);
 }
 .router-view {
   flex: 1;
