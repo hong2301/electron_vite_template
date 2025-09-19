@@ -180,8 +180,15 @@ code {
 .w-title {
   font-size: 1.9rem;
   font-weight: 600;
-  margin-left: 1rem;
   color: rgb(38, 51, 123);
+  line-height: 1.9rem;
+}
+.w-title2 {
+  line-height: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: rgb(38, 51, 123);
+  margin-left: 0.5rem;
 }
 .w-title1 {
   font-size: 1.8rem;

@@ -12,12 +12,14 @@ import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCurrentDate, getCurrentDayOfWeek, getCurrentTime } from '@renderer/utils/date'
 import { delay } from '@renderer/utils/delay'
+import { useProjectStore } from '@renderer/stores/project'
 
 const route = useRoute()
 const isHome = ref(true)
 const isProcess = ref(false)
 const sf = ref('')
 const contentHide = ref(false)
+const urlLog = ref(['流程1'])
 
 const back = () => {
   router.go(-1)
@@ -56,14 +58,23 @@ const runGetCurrentTime = () => {
   }, 60000)
 }
 
+// 获取路由历史
+const getUrlLog = () => {
+  urlLog.value = []
+  if (isProcess.value) {
+    urlLog.value = useProjectStore().getUrlLog()
+  }
+}
+
 onMounted(() => {
   isHomeFn()
   isProcessFn()
+  getUrlLog()
   runGetCurrentTime()
 })
 
 // 在路由配置中添加全局守卫
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (_to, _from, next) => {
   try {
     // 隐藏
     contentHide.value = true
@@ -88,6 +99,7 @@ watch(
 
     isHomeFn()
     isProcessFn()
+    getUrlLog()
   }
 )
 </script>
@@ -99,7 +111,12 @@ watch(
         <div class="head">
           <div class="logBox">
             <img class="log" src="../assets//log.png" mode="heightFix" />
-            <div class="w-title">自助拍照机</div>
+            <div class="title-box">
+              <div class="w-title">自助拍照机</div>
+              <div v-for="(uItem, uIndex) in urlLog" :key="uIndex" class="w-title2">
+                /{{ uItem }}
+              </div>
+            </div>
           </div>
           <div class="desBox">
             <el-icon class="w-label-des" style="font-size: 1.3rem; margin-right: 0.2rem"
@@ -111,7 +128,10 @@ watch(
           </div>
         </div>
         <div class="page" :style="{ opacity: `${contentHide ? 0 : 1}` }">
-          <router-view />
+          <div v-if="isProcess" class="process"></div>
+          <div class="router-view">
+            <router-view />
+          </div>
         </div>
       </div>
       <div v-if="!isHome" class="tail" :style="{ opacity: `${contentHide ? 0 : 1}` }">
@@ -197,6 +217,16 @@ watch(
   border-radius: 0rem 0rem 2.5rem 2.5rem;
   padding: 1rem;
   box-sizing: border-box;
+  display: flex;
+}
+.process {
+  width: 20%;
+  height: 100%;
+  background-color: red;
+}
+.router-view {
+  flex: 1;
+  height: 100%;
 }
 .tail {
   transition: all ease 0.2s;
@@ -227,6 +257,13 @@ watch(
 .log {
   height: 2.5rem;
   aspect-ratio: 1.88;
+}
+.title-box {
+  margin-left: 1rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: end;
+  justify-content: center;
 }
 .tool-btn {
   color: rgb(225, 225, 225);

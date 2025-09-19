@@ -75,6 +75,18 @@ export const useProjectStore = defineStore(
       return nowProject.value.process[getStep()].input
     }
 
+    // 获取路径历史
+    const getUrlLog = () => {
+      const temp: string[] = []
+      const step = getStep()
+      nowProject.value.process.forEach((item, index) => {
+        if (index <= step) {
+          temp.push(item.name)
+        }
+      })
+      return temp
+    }
+
     return {
       mountProject,
       nextStep,
@@ -83,7 +95,8 @@ export const useProjectStore = defineStore(
       back,
       getStep,
       getNowProject,
-      getNowStepInput
+      getNowStepInput,
+      getUrlLog
     }
   },
   {
