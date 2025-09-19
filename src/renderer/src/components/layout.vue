@@ -55,6 +55,8 @@ const runGetCurrentTime = () => {
 }
 
 onMounted(() => {
+  isHomeFn()
+  isProcessFn()
   runGetCurrentTime()
 })
 
