@@ -169,3 +169,20 @@ code {
     display: none;
   }
 }
+
+:root {
+  --mian-color: rgb(60, 124, 245);
+  --mian-color-sucess: rgb(44, 196, 77);
+}
+
+.w-title {
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  color: rgb(38, 51, 123);
+}
+
+.w-label-des {
+  color: rgb(106, 106, 106);
+  font-size: 1rem;
+}
