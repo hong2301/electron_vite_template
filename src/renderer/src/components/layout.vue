@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { WarnTriangleFilled } from '@element-plus/icons-vue'
+import { Back, HomeFilled, WarnTriangleFilled } from '@element-plus/icons-vue'
 </script>
 
 <template>
   <div class="overture">
     <div class="content">
-      <div class="tail"></div>
       <div class="body">
         <div class="head">
           <div class="logBox">
-            <img class="log" src="../assets//log.png" />
+            <img class="log" src="../assets//log.png" mode="heightFix" />
             <div class="w-title">自助拍照机</div>
           </div>
           <div class="desBox">
@@ -22,6 +21,14 @@ import { WarnTriangleFilled } from '@element-plus/icons-vue'
         <div class="page">
           <router-view />
         </div>
+      </div>
+      <div class="tail">
+        <el-button text size="large" :icon="HomeFilled" color="rgb(255,255,255)" class="tool-btn"
+          >首页</el-button
+        >
+        <el-button text size="large" :icon="Back" color="rgb(255,255,255)" class="tool-btn"
+          >返回</el-button
+        >
       </div>
     </div>
   </div>
@@ -37,12 +44,10 @@ import { WarnTriangleFilled } from '@element-plus/icons-vue'
 .content {
   width: 100%;
   height: 100%;
-  position: relative;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
 }
 .body {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 92%;
   background-color: white;
@@ -62,15 +67,16 @@ import { WarnTriangleFilled } from '@element-plus/icons-vue'
   width: 100%;
   flex: 1;
   border-radius: 0rem 0rem 2.5rem 2.5rem;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 .tail {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.15);
+  height: 4rem;
   border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .logBox {
   width: 50%;
@@ -91,5 +97,18 @@ import { WarnTriangleFilled } from '@element-plus/icons-vue'
 }
 .log {
   height: 2.5rem;
+  aspect-ratio: 1.88;
+}
+.tool-btn {
+  color: rgb(225, 225, 225);
+  font-size: 1.4rem;
+}
+.tool-btn:hover {
+  color: rgb(43, 43, 43);
+  font-size: 1.4rem;
+}
+.tool-btn:active {
+  color: rgb(43, 43, 43);
+  font-size: 1.4rem;
 }
 </style>
