@@ -3,6 +3,7 @@ import { audioPlayer } from '@renderer/utils/horn'
 import { markRaw, onMounted, ref } from 'vue'
 import { Postcard } from '@element-plus/icons-vue'
 import { projectType } from '@renderer/types/project'
+import { useProjectStore } from '@renderer/stores/project'
 
 const cards = ref<projectType[]>([
   {
@@ -13,7 +14,9 @@ const cards = ref<projectType[]>([
         name: '流程1',
         path: '/process/process1',
         key: 'process1',
-        input: {},
+        input: {
+          value: 1
+        },
         result: {},
         timeout: 30,
         des: '进行流程1'
@@ -79,8 +82,9 @@ const cards = ref<projectType[]>([
   }
 ])
 
-const clickCard = () => {
-  console.log('点击项目')
+const clickCard = (item: projectType) => {
+  useProjectStore().mountProject(item)
+  useProjectStore().nextStep()
 }
 
 onMounted(() => {
@@ -92,7 +96,7 @@ onMounted(() => {
   <div class="content">
     <div class="w-title1">请选择你需要办理的业务</div>
     <div class="box">
-      <div v-for="(cItem, cIndex) in cards" :key="cIndex" class="card" @click="clickCard">
+      <div v-for="(cItem, cIndex) in cards" :key="cIndex" class="card" @click="clickCard(cItem)">
         <div class="logbox">
           <el-icon class="icon">
             <component :is="cItem.icon" />

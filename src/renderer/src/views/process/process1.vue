@@ -1,4 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useProjectStore } from '@renderer/stores/project'
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  console.log(useProjectStore().getNowStepInput())
+})
+</script>
 
 <template>
   <div class="content">流程1</div>
@@ -12,5 +19,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: black;
 }
 </style>

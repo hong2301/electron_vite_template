@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="content">流程1</div>
+  <div class="content">流程2</div>
 </template>
 
 <style scoped>
@@ -12,5 +12,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: black;
 }
 </style>
