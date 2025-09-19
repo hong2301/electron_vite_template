@@ -29,18 +29,19 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response) => {
-    const res = response.data
-    if (res.status !== 0) {
-      // ElMessage.error 用于显示错误提示
-      // ElMessage({
-      //     message: res.message || 'Error',
-      //     type: 'error',
-      //     duration: 5 * 1000
-      // })
-      return Promise.reject(new Error(res.message || 'Error'))
-    } else {
-      return res
-    }
+    return response
+    // const res = response.data
+    // if (res.status !== 0) {
+    //   // ElMessage.error 用于显示错误提示
+    //   // ElMessage({
+    //   //     message: res.message || 'Error',
+    //   //     type: 'error',
+    //   //     duration: 5 * 1000
+    //   // })
+    //   return Promise.reject(new Error(res.message || 'Error'))
+    // } else {
+    //   return res
+    // }
   },
   (error) => {
     console.log('err' + error)
