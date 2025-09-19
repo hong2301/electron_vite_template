@@ -11,11 +11,13 @@ import { useCmdStore } from '@renderer/stores/cmd'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCurrentDate, getCurrentDayOfWeek, getCurrentTime } from '@renderer/utils/date'
+import { delay } from '@renderer/utils/delay'
 
 const route = useRoute()
 const isHome = ref(true)
 const isProcess = ref(false)
 const sf = ref('')
+const contentHide = ref(false)
 
 const back = () => {
   router.go(-1)
@@ -63,12 +65,12 @@ onMounted(() => {
 // 在路由配置中添加全局守卫
 router.beforeEach(async (to, from, next) => {
   try {
-    // 可以在这里添加跳转前的逻辑
-    // 比如检查权限、加载数据等
-
-    // 如果需要等待某个操作完成
-    // await someAsyncOperation()
-    console.log(1)
+    // 隐藏
+    contentHide.value = true
+    setTimeout(() => {
+      contentHide.value = false
+    }, 400)
+    await delay(200)
     next()
   } catch (error) {
     console.error('导航守卫错误:', error)
@@ -108,11 +110,11 @@ watch(
             <div class="w-label-des">{{ sf }}</div>
           </div>
         </div>
-        <div class="page">
+        <div class="page" :style="{ opacity: `${contentHide ? 0 : 1}` }">
           <router-view />
         </div>
       </div>
-      <div v-if="!isHome" class="tail">
+      <div v-if="!isHome" class="tail" :style="{ opacity: `${contentHide ? 0 : 1}` }">
         <el-button
           v-if="useCmdStore().home"
           text
@@ -140,6 +142,7 @@ watch(
         v-else
         class="tail"
         style="display: flex; justify-content: space-between; padding-inline: 2rem"
+        :style="{ opacity: `${contentHide ? 0 : 1}` }"
       >
         <div style="display: flex; justify-content: center; align-items: center">
           <el-icon class="w-label" style="font-size: 1.3rem; margin-right: 0.2rem"
@@ -188,6 +191,7 @@ watch(
   display: flex;
 }
 .page {
+  transition: all ease 0.2s;
   width: 100%;
   flex: 1;
   border-radius: 0rem 0rem 2.5rem 2.5rem;
@@ -195,6 +199,7 @@ watch(
   box-sizing: border-box;
 }
 .tail {
+  transition: all ease 0.2s;
   width: 100%;
   height: 4rem;
   border-radius: 1rem;
