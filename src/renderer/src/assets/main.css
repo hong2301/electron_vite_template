@@ -171,15 +171,23 @@ code {
 }
 
 :root {
-  --mian-color: rgb(60, 124, 245);
+  --bg-color: rgb(37, 56, 148);
+  --mian-color: rgb(38, 51, 123);
+  --secondary-color: rgb(13, 117, 229);
   --mian-color-sucess: rgb(44, 196, 77);
 }
 
 .w-title {
-  font-size: 1.7rem;
+  font-size: 1.9rem;
   font-weight: 600;
   margin-left: 1rem;
   color: rgb(38, 51, 123);
+}
+.w-title1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  color: rgb(0, 0, 0);
 }
 
 .w-label-des {
@@ -189,4 +197,10 @@ code {
 .w-label {
   color: rgb(239, 239, 239);
   font-size: 1.2rem;
+}
+
+.w-label1 {
+  color: var(--mian-color);
+  font-size: 1.6rem;
+  font-weight: 600;
 }

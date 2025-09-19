@@ -156,11 +156,11 @@ watch(
 .body {
   width: 100%;
   height: 92%;
-  background-color: white;
+  background-color: rgb(248, 248, 248);
   border-radius: 1rem 1rem 2.5rem 2.5rem;
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 1rem rgba(0, 0, 0, 0.5);
 }
 .head {
   width: 100%;
