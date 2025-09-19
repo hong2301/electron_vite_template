@@ -58,6 +58,22 @@ onMounted(() => {
   runGetCurrentTime()
 })
 
+// 在路由配置中添加全局守卫
+router.beforeEach(async (to, from, next) => {
+  try {
+    // 可以在这里添加跳转前的逻辑
+    // 比如检查权限、加载数据等
+
+    // 如果需要等待某个操作完成
+    // await someAsyncOperation()
+    console.log(1)
+    next()
+  } catch (error) {
+    console.error('导航守卫错误:', error)
+    next('/')
+  }
+})
+
 // 监控路由变化
 watch(
   () => route.path,

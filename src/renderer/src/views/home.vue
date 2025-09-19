@@ -1,7 +1,60 @@
 <script setup lang="ts">
 import { audioPlayer } from '@renderer/utils/horn'
-import { onMounted } from 'vue'
+import { markRaw, onMounted, ref } from 'vue'
 import { Postcard } from '@element-plus/icons-vue'
+import { projectType } from '@renderer/types/project'
+
+const cards = ref<projectType[]>([
+  {
+    icon: markRaw(Postcard),
+    name: '项目1',
+    process: [
+      {
+        name: '流程1',
+        path: '/process/getid',
+        key: 'getid',
+        input: {},
+        result: {},
+        timeout: 30,
+        des: '进行流程1'
+      }
+    ]
+  },
+  {
+    icon: markRaw(Postcard),
+    name: '项目1',
+    process: [
+      {
+        name: '流程1',
+        path: '/process/getid',
+        key: 'getid',
+        input: {},
+        result: {},
+        timeout: 30,
+        des: '进行流程1'
+      }
+    ]
+  },
+  {
+    icon: markRaw(Postcard),
+    name: '项目1',
+    process: [
+      {
+        name: '流程1',
+        path: '/process/getid',
+        key: 'getid',
+        input: {},
+        result: {},
+        timeout: 30,
+        des: '进行流程1'
+      }
+    ]
+  }
+])
+
+const clickCard = () => {
+  console.log('点击项目')
+}
 
 onMounted(() => {
   audioPlayer.play('请选择你需要办理的业务')
@@ -12,13 +65,13 @@ onMounted(() => {
   <div class="content">
     <div class="w-title1">请选择你需要办理的业务</div>
     <div class="box">
-      <div class="card">
+      <div v-for="(cItem, cIndex) in cards" :key="cIndex" class="card" @click="clickCard">
         <div class="logbox">
           <el-icon class="icon">
-            <component :is="Postcard" />
+            <component :is="cItem.icon" />
           </el-icon>
         </div>
-        <div class="w-label1">身份证拍照</div>
+        <div class="w-label1">{{ cItem.name }}</div>
       </div>
     </div>
   </div>
@@ -51,11 +104,16 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-inline: 2.5rem;
+  transition: all ease 1s;
+}
+.card:active {
+  transform: scale(2);
 }
 .logbox {
   width: 70%;
   aspect-ratio: 1;
-  border: 0.5rem solid var(--mian-color);
+  border: 0.2rem solid var(--mian-color);
   background-color: var(--bg-color);
   box-sizing: border-box;
   border-radius: 50%;
