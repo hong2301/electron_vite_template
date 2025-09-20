@@ -133,6 +133,7 @@ watch(
               direction="vertical"
               :active="useProjectStore().getStep()"
               finish-status="success"
+              class="step-box"
             >
               <el-step
                 v-for="(pItem, pIndex) in useProjectStore().nowProject.process"
@@ -141,6 +142,7 @@ watch(
                 :description="pItem.des"
               />
             </el-steps>
+            <div class="timeout"></div>
           </div>
           <div class="router-view">
             <router-view />
@@ -234,9 +236,13 @@ watch(
 }
 .process {
   width: 10%;
-  height: 80%;
+  height: 100%;
   display: flex;
   border-right: 0.1rem solid rgba(0, 0, 0, 0.05);
+}
+.step-box {
+  width: 100%;
+  height: 70%;
 }
 .router-view {
   flex: 1;
