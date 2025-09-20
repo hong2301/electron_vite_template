@@ -18,11 +18,11 @@ const cards = ref<projectType[]>([
           value: 1
         },
         result: {},
-        timeout: 30,
+        timeout: 40,
         des: '进行流程1'
       },
       {
-        name: '流程1',
+        name: '流程2',
         path: '/process/process2',
         key: 'process2',
         input: {},

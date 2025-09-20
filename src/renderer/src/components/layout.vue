@@ -4,15 +4,17 @@ import {
   HomeFilled,
   WarnTriangleFilled,
   PhoneFilled,
-  Calendar
+  Calendar,
+  Right
 } from '@element-plus/icons-vue'
 import router from '@renderer/router'
 import { useCmdStore } from '@renderer/stores/cmd'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCurrentDate, getCurrentDayOfWeek, getCurrentTime } from '@renderer/utils/date'
 import { delay } from '@renderer/utils/delay'
 import { useProjectStore } from '@renderer/stores/project'
+import timeout from './timeout.vue'
 
 const route = useRoute()
 const isHome = ref(true)
@@ -20,6 +22,8 @@ const isProcess = ref(false)
 const sf = ref('')
 const contentHide = ref(false)
 const urlLog = ref(['流程1'])
+let setIntervalData1: NodeJS.Timeout | null = null
+const rTimeout = ref(30)
 
 const back = () => {
   router.go(-1)
@@ -27,6 +31,10 @@ const back = () => {
 
 const goHome = () => {
   router.replace('/')
+}
+
+const next = () => {
+  useProjectStore().nextStep()
 }
 
 // 判断是否在首页
@@ -44,6 +52,7 @@ const isProcessFn = () => {
   if (route.path.includes('process')) {
     useCmdStore().back = true
     isProcess.value = true
+    useCmdStore().next = true
   } else {
     isProcess.value = false
   }
@@ -52,7 +61,7 @@ const isProcessFn = () => {
 // 运行循环获取当前时间
 const runGetCurrentTime = () => {
   sf.value = getCurrentTime(2)
-  setInterval(() => {
+  setIntervalData1 = setInterval(() => {
     sf.value = getCurrentTime(2)
     console.log(sf.value)
   }, 60000)
@@ -66,11 +75,22 @@ const getUrlLog = () => {
   }
 }
 
+// 获取操作时间
+const getRTimeout = () => {
+  if (isProcess.value) {
+    rTimeout.value = useProjectStore().getNowStepTimeout()
+  }
+}
+
 onMounted(() => {
   isHomeFn()
   isProcessFn()
   getUrlLog()
   runGetCurrentTime()
+  getRTimeout()
+})
+onUnmounted(() => {
+  if (setIntervalData1) clearInterval(setIntervalData1)
 })
 
 // 在路由配置中添加全局守卫
@@ -100,6 +120,7 @@ watch(
     isHomeFn()
     isProcessFn()
     getUrlLog()
+    getRTimeout()
   }
 )
 </script>
@@ -142,7 +163,18 @@ watch(
                 :description="pItem.des"
               />
             </el-steps>
-            <div class="timeout"></div>
+            <div class="timeout">
+              <timeout
+                :value="rTimeout"
+                :report-data="{
+                  isOpen: true,
+                  title: '操作超时',
+                  content: '点击重试可重新进该步骤，否则5秒后前往首页',
+                  type: 'danger',
+                  timeout: 5
+                }"
+              />
+            </div>
           </div>
           <div class="router-view">
             <router-view />
@@ -150,6 +182,17 @@ watch(
         </div>
       </div>
       <div v-if="!isHome" class="tail" :style="{ opacity: `${contentHide ? 0 : 1}` }">
+        <el-button
+          v-if="useCmdStore().back"
+          text
+          size="large"
+          :icon="Back"
+          color="rgb(255,255,255)"
+          class="tool-btn"
+          @click="back"
+        >
+          返回
+        </el-button>
         <el-button
           v-if="useCmdStore().home"
           text
@@ -162,15 +205,15 @@ watch(
           首页
         </el-button>
         <el-button
-          v-if="useCmdStore().back"
+          v-if="useCmdStore().next"
           text
           size="large"
-          :icon="Back"
+          :icon="Right"
           color="rgb(255,255,255)"
           class="tool-btn"
-          @click="back"
+          @click="next"
         >
-          返回
+          下一步
         </el-button>
       </div>
       <div
@@ -237,8 +280,15 @@ watch(
 .process {
   width: 10%;
   height: 100%;
-  display: flex;
   border-right: 0.1rem solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+.timeout {
+  width: 100%;
+  height: 30%;
+  display: flex;
+  align-items: center;
 }
 .step-box {
   width: 100%;

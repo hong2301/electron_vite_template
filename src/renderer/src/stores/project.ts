@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { projectType } from '@renderer/types/project'
+import type { processType, projectType } from '@renderer/types/project'
 import router from '@renderer/router'
 
 export const useProjectStore = defineStore(
@@ -75,6 +75,11 @@ export const useProjectStore = defineStore(
       return nowProject.value.process[getStep()].input
     }
 
+    // 获取当前步骤的计时
+    const getNowStepTimeout = () => {
+      return nowProject.value.process[getStep()].timeout
+    }
+
     // 获取路径历史
     const getUrlLog = () => {
       const temp: string[] = []
@@ -96,7 +101,8 @@ export const useProjectStore = defineStore(
       getStep,
       getNowProject,
       getNowStepInput,
-      getUrlLog
+      getUrlLog,
+      getNowStepTimeout
     }
   },
   {

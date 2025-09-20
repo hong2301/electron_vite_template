@@ -175,6 +175,7 @@ code {
   --mian-color: rgb(38, 51, 123);
   --secondary-color: rgb(13, 117, 229);
   --mian-color-sucess: rgb(44, 196, 77);
+  --mian-color-danger: brown;
 }
 
 .w-title {
@@ -193,7 +194,6 @@ code {
 .w-title1 {
   font-size: 1.8rem;
   font-weight: 600;
-  margin-left: 1rem;
   color: rgb(0, 0, 0);
 }
 
@@ -210,4 +210,20 @@ code {
   color: var(--mian-color);
   font-size: 1.6rem;
   font-weight: 600;
+}
+.w-label2 {
+  color: black;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.w-mask {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: all ease 0.2s;
+  z-index: 1;
 }
