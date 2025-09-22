@@ -15,6 +15,7 @@ import { getCurrentDate, getCurrentDayOfWeek, getCurrentTime } from '@/utils/dat
 import { delay } from '@/utils/delay'
 import { useProjectStore } from '@renderer/stores/project'
 import timeout from './timeout.vue'
+import { cmdType } from '@/types/index'
 
 const route = useRoute()
 const isHome = ref(true)
@@ -24,6 +25,7 @@ const contentHide = ref(false)
 const urlLog = ref(['流程1'])
 let setIntervalData1: NodeJS.Timeout | null = null
 const rTimeout = ref(30)
+const cmds = ref<cmdType[]>([])
 
 const back = () => {
   router.go(-1)
@@ -82,6 +84,11 @@ const getRTimeout = () => {
   }
 }
 
+// 获取流程的操作按钮
+const getCmd = (cmd: cmdType[]) => {
+  cmds.value = cmd
+}
+
 onMounted(() => {
   isHomeFn()
   isProcessFn()
@@ -121,6 +128,7 @@ watch(
     isProcessFn()
     getUrlLog()
     getRTimeout()
+    cmds.value = []
   }
 )
 </script>
@@ -177,7 +185,7 @@ watch(
             </div>
           </div>
           <div class="router-view">
-            <router-view />
+            <router-view @cmd="getCmd" />
           </div>
         </div>
       </div>
@@ -193,28 +201,44 @@ watch(
         >
           返回
         </el-button>
-        <el-button
-          v-if="useCmdStore().home"
-          text
-          size="large"
-          :icon="HomeFilled"
-          color="rgb(255,255,255)"
-          class="tool-btn"
-          @click="goHome"
-        >
-          首页
-        </el-button>
-        <el-button
-          v-if="useCmdStore().next"
-          text
-          size="large"
-          :icon="Right"
-          color="rgb(255,255,255)"
-          class="tool-btn"
-          @click="next"
-        >
-          下一步
-        </el-button>
+        <div>
+          <el-button
+            v-if="useCmdStore().home"
+            text
+            size="large"
+            :icon="HomeFilled"
+            color="rgb(255,255,255)"
+            class="tool-btn"
+            @click="goHome"
+          >
+            首页
+          </el-button>
+          <el-button
+            v-if="useCmdStore().next"
+            text
+            size="large"
+            :icon="Right"
+            color="rgb(255,255,255)"
+            class="tool-btn"
+            @click="next"
+          >
+            下一步
+          </el-button>
+        </div>
+        <div>
+          <el-button
+            v-for="(cItem, cIndex) in cmds"
+            :key="cIndex"
+            text
+            bg
+            size="large"
+            :icon="cItem.icon"
+            class="tool-btn1"
+            @click="cItem.operation"
+          >
+            {{ cItem.label }}
+          </el-button>
+        </div>
       </div>
       <div
         v-else
@@ -251,10 +275,12 @@ watch(
   height: 100%;
   background-color: rgba(255, 255, 255, 0.15);
   border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .body {
   width: 100%;
-  height: 92%;
+  flex: 1;
   background-color: rgb(248, 248, 248);
   border-radius: 1rem 1rem 2.5rem 2.5rem;
   display: flex;
@@ -295,6 +321,8 @@ watch(
   height: 70%;
 }
 .router-view {
+  padding-left: 1rem;
+  box-sizing: border-box;
   flex: 1;
   height: 100%;
 }
@@ -304,8 +332,10 @@ watch(
   height: 4rem;
   border-radius: 1rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  padding-inline: 1rem;
+  box-sizing: border-box;
 }
 .logBox {
   width: 50%;
@@ -338,6 +368,15 @@ watch(
 .tool-btn {
   color: rgb(225, 225, 225);
   font-size: 1.4rem;
+}
+.tool-btn1 {
+  color: var(--mian-color);
+  font-size: 1.4rem;
+  font-weight: 800;
+  transition: all ease 0.2s;
+}
+.tool-btn1:active {
+  scale: 1.1;
 }
 .tool-btn:hover {
   color: rgb(43, 43, 43);

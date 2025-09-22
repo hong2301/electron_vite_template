@@ -3,3 +3,9 @@ export interface rerultType {
   message: string
   data?: Record<string, unknown | string>
 }
+
+export interface cmdType {
+  icon: DefineComponent
+  label: string
+  operation: function
+}
