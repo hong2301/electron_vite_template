@@ -7,7 +7,7 @@
     "types": ["electron-vite/node"],
     "paths": {
       "@/*":[
-        "src/*"
+        "./src/*"
       ],
     }
   }

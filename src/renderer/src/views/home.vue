@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { audioPlayer } from '@renderer/utils/horn'
+import { audioPlayer } from '@/utils/horn'
 import { markRaw, onMounted, ref } from 'vue'
 import { Postcard } from '@element-plus/icons-vue'
-import { projectType } from '@renderer/types/project'
+import { projectType } from '@/types/project'
 import { useProjectStore } from '@renderer/stores/project'
 
 const cards = ref<projectType[]>([

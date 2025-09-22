@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { processType, projectType } from '@renderer/types/project'
+import type { projectType } from '@/types/project'
 import router from '@renderer/router'
 
 export const useProjectStore = defineStore(
