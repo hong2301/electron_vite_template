@@ -12,10 +12,20 @@ dotenv.config({
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+    plugins: [externalizeDepsPlugin(), bytecodePlugin()],
+    resolve: {
+      alias: {
+        '@': resolve('src')
+      }
+    }
   },
   preload: {
-    plugins: [externalizeDepsPlugin(), bytecodePlugin()]
+    plugins: [externalizeDepsPlugin(), bytecodePlugin()],
+    resolve: {
+      alias: {
+        '@': resolve('src')
+      }
+    }
   },
   renderer: {
     assetsInclude: ['**/*.wasm', '**/*.task'],
