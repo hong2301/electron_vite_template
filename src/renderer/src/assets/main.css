@@ -178,11 +178,20 @@ code {
   --mian-color-danger: brown;
 }
 
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  user-select: none;
+}
+
 .w-title {
   font-size: 1.9rem;
   font-weight: 600;
   color: rgb(38, 51, 123);
   line-height: 1.9rem;
+  white-space: nowrap;
 }
 .w-title2 {
   line-height: 1.5rem;
@@ -190,6 +199,7 @@ code {
   font-weight: 600;
   color: rgb(38, 51, 123);
   margin-left: 0.5rem;
+  white-space: nowrap;
 }
 .w-title1 {
   font-size: 1.8rem;
@@ -226,4 +236,18 @@ code {
   left: 0;
   transition: all ease 0.2s;
   z-index: 1;
+}
+
+.w-title-box {
+  width: 100%;
+  height: 3.2rem;
+  display: flex;
+  justify-content: center;
+}
+.w-title-bottom {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
