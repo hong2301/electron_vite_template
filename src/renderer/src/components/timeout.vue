@@ -28,6 +28,7 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import report from './report.vue'
 import router from '@renderer/router'
+import { delay } from '@/utils/delay'
 
 const props = defineProps({
   size: {
@@ -72,9 +73,10 @@ const runTime = (value: number) => {
       timeout.value === 0
     ) {
       warning.value = true
-      setTimeoutData1 = setTimeout(() => {
+      setTimeoutData1 = setTimeout(async () => {
         warning.value = false
         if (timeout.value <= 0) {
+          await delay(200)
           clear()
           timeOver.value = true
         }

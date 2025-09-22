@@ -18,7 +18,7 @@ const cards = ref<projectType[]>([
           value: 1
         },
         result: {},
-        timeout: 40,
+        timeout: 5,
         des: '进行流程1'
       },
       {

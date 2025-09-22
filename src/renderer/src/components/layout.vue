@@ -65,7 +65,6 @@ const runGetCurrentTime = () => {
   sf.value = getCurrentTime(2)
   setIntervalData1 = setInterval(() => {
     sf.value = getCurrentTime(2)
-    console.log(sf.value)
   }, 60000)
 }
 
