@@ -8,15 +8,26 @@
     >
       <div class="w-title1 title-box">{{ title }}</div>
       <div class="content-box">
-        <div class="content w-label2">{{ content }}</div>
+        <div class="content">
+          <div class="w-label2" style="margin-bottom: 1rem">
+            {{ content }}
+          </div>
+
+          <slot></slot>
+        </div>
         <el-divider />
         <div class="btn-box">
           <timeout :size="0.6" :value="timeoutValue" />
           <div>
-            <el-button type="warning" size="large" :icon="HomeFilled" @click="goHome"
-              >返回首页</el-button
+            <el-button
+              v-for="(cItem, cIndex) in cmd"
+              :key="cIndex"
+              :type="cItem?.type"
+              size="large"
+              :icon="cItem.icon"
+              @click="cItem.operation"
+              >{{ cItem.label }}</el-button
             >
-            <el-button type="primary" size="large" :icon="Refresh" @click="refresh">重试</el-button>
           </div>
         </div>
       </div>
@@ -24,12 +35,13 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted, PropType, ref } from 'vue'
+import { markRaw, onMounted, PropType, ref } from 'vue'
 import { HomeFilled, Refresh } from '@element-plus/icons-vue'
 import router from '@renderer/router'
 import timeout from './timeout.vue'
+import { cmdType } from '@/types'
 
-defineProps({
+const props = defineProps({
   title: {
     type: String,
     default: '标题'
@@ -45,22 +57,39 @@ defineProps({
   timeoutValue: {
     type: Number,
     default: 3
+  },
+  cmds: {
+    type: Array as PropType<cmdType[]>,
+    default: () => []
   }
 })
 const isStart = ref(false)
-
-const goHome = () => {
-  router.replace('/')
+const homeFilledBtn = {
+  icon: markRaw(HomeFilled),
+  label: '返回首页',
+  type: 'warning',
+  operation: () => {
+    router.replace('/')
+  }
 }
-const refresh = () => {
-  window.location.reload()
+const refreshBtn = {
+  icon: markRaw(Refresh),
+  type: 'primary',
+  label: '重试',
+  operation: () => {
+    window.location.reload()
+  }
 }
+const cmd = ref<cmdType[]>([homeFilledBtn, refreshBtn])
 
 onMounted(() => {
   isStart.value = false
   setTimeout(() => {
     isStart.value = true
   }, 200)
+  if (props.cmds.length !== 0) {
+    cmd.value = props.cmds
+  }
 })
 </script>
 
@@ -76,7 +105,7 @@ onMounted(() => {
 .card {
   position: fixed;
   width: 50%;
-  height: 60%;
+  min-height: 10rem;
   z-index: 1;
   border-radius: 2rem;
   top: 50%;
@@ -109,6 +138,9 @@ onMounted(() => {
 .content {
   width: 100%;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  white-space: pre-line;
 }
 .btn-box {
   width: 100%;

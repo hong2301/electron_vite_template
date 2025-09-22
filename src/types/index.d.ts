@@ -8,4 +8,5 @@ export interface cmdType {
   icon: DefineComponent
   label: string
   operation: function
+  type: string
 }
