@@ -1,10 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { echoReqType } from '@/types/test'
 
 // Custom APIs for renderer
 const api = {
   test: {
-    echo: (str: string) => ipcRenderer.invoke('test:echo', str)
+    echo: (str: echoReqType) => ipcRenderer.invoke('test:echo', str)
   }
 }
 
