@@ -1,0 +1,17 @@
+{
+  "name": "node_mock",
+  "version": "0.0.0",
+  "description": "node_mock",
+  "author": "hong",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

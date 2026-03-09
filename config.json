@@ -1,0 +1,13 @@
+{
+  "time": {
+    "isOpen": true,
+    "over": 30,
+    "process1": 30
+  },
+  "foundation": {
+    "fontSize": 1,
+    "isTest": "",
+    "backPassword": "",
+    "dataPath": ""
+  }
+}
